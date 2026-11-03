@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Instrument - Magpie's Instrument Archive</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>Magpie's Instrument Archive</h1>
+<div class="tagline">Instruments I own and where they come from</div>
+<nav><a href="index.html">Home</a> | <a href="index.html#map-section">World Map</a> | <a href="catalogue.html">Catalogue</a> | <a href="tree.html">Construction Tree</a> | <a href="index.html#contact">Contact</a></nav>
+<hr>
+<div id="page"></div>
+<hr>
+<footer class="small"><b>Copyright</b><br>All photographs on this website were taken by me. They are licensed for free use with credit, and may not be used for profit.</footer>
+<script src="instruments.js"></script>
+<script>
+const id=new URLSearchParams(location.search).get("id");
+const it=instruments.find(x=>x.id===id);
+const page=document.getElementById("page");
+const mk=(tag,text,cls)=>{const e=document.createElement(tag);e.textContent=text;if(cls)e.className=cls;return e};
+if(!it){
+  page.append(mk("h2","Instrument not found"));
+}else{
+  document.title=it.name+" - Magpie's Instrument Archive";
+  const first=it.countries[0];
+  const back=document.createElement("a");back.href="country.html?c="+first;
+  back.textContent="\u00ab More from "+(countryNames[first]||"this country");
+  page.append(back,mk("h2",it.name));
+  const ph=document.createElement("div");ph.className="photo empty";
+  const img=new Image();img.alt=it.name;img.src="images/"+it.id+".jpg";
+  img.onload=()=>ph.classList.remove("empty");img.onerror=()=>img.remove();
+  ph.append(img);page.append(ph);
+  // where it's from (links to country pages)
+  page.append(mk("h3","Where It's From"));
+  const w=document.createElement("div");w.className="box";
+  w.append(document.createTextNode(it.region+". "));
+  it.countries.forEach((c,i)=>{
+    const a=document.createElement("a");a.href="country.html?c="+c;a.textContent=countryNames[c]||c;
+    w.append(a);if(i<it.countries.length-1)w.append(document.createTextNode(", "));
+  });
+  page.append(w);
+  page.append(mk("h3","Hornbostel\u2013Sachs Classification"));
+  const hb=document.createElement("div");hb.className="box";
+  if(it.hs){const a=document.createElement("a");a.href="tree.html#"+encodeURIComponent(it.id);a.textContent=it.hs;hb.append(a,document.createTextNode(" \u2013 see it on the construction tree"));}
+  page.append(hb);
+  [["Description","description"],["Tuning","tuning"],["When I Got It","acquired"],["Recordings","recordings"],["Notes","notes"]].forEach(([t,k])=>{
+    page.append(mk("h3",t),mk("div",it[k]||"","box"));
+  });
+}
+</script>
+</body>
+</html>

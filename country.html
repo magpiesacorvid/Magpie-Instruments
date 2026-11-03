@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Country - Magpie's Instrument Archive</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>Magpie's Instrument Archive</h1>
+<div class="tagline">Instruments I own and where they come from</div>
+<nav><a href="index.html">Home</a> | <a href="index.html#map-section">World Map</a> | <a href="catalogue.html">Catalogue</a> | <a href="tree.html">Construction Tree</a> | <a href="index.html#contact">Contact</a></nav>
+<hr>
+<p><a href="index.html#map-section">&laquo; Back to the map</a></p>
+<h2 id="title"></h2>
+<div id="rows"></div>
+<hr>
+<footer class="small"><b>Copyright</b><br>All photographs on this website were taken by me. They are licensed for free use with credit, and may not be used for profit.</footer>
+<script src="instruments.js"></script>
+<script>
+const c=new URLSearchParams(location.search).get("c")||"";
+const found=instruments.filter(x=>x.countries.includes(c));
+const name=countryNames[c]||"Country not found";
+document.title=name+" - Magpie's Instrument Archive";
+document.getElementById("title").textContent=name;
+const rows=document.getElementById("rows");
+found.forEach(it=>{
+  const url="instrument.html?id="+encodeURIComponent(it.id);
+  const row=document.createElement("div");row.className="row";
+  const th=document.createElement("a");th.href=url;th.className="thumb empty";
+  const img=new Image();img.alt=it.name;img.src="images/"+it.id+".jpg";
+  img.onload=()=>th.classList.remove("empty");img.onerror=()=>img.remove();
+  th.append(img);
+  const txt=document.createElement("div");
+  const h=document.createElement("h3");const a=document.createElement("a");a.href=url;a.textContent=it.name;h.append(a);
+  const p=document.createElement("p");p.textContent=it.description;
+  txt.append(h,p);row.append(th,txt);rows.append(row);
+});
+</script>
+</body>
+</html>

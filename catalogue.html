@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Catalogue - Magpie's Instrument Archive</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>Magpie's Instrument Archive</h1>
+<div class="tagline">Instruments I own and where they come from</div>
+<nav><a href="index.html">Home</a> | <a href="index.html#map-section">World Map</a> | <a href="catalogue.html">Catalogue</a> | <a href="tree.html">Construction Tree</a> | <a href="index.html#contact">Contact</a></nav>
+<hr>
+<h2>Catalogue</h2>
+<ul id="list" class="catalogue-list"></ul>
+<hr>
+<footer class="small"><b>Copyright</b><br>All photographs on this website were taken by me. They are licensed for free use with credit, and may not be used for profit.</footer>
+<script src="instruments.js"></script>
+<script>
+const ul=document.getElementById("list");
+[...instruments].sort((a,b)=>a.name.localeCompare(b.name)).forEach(it=>{
+  const li=document.createElement("li");const a=document.createElement("a");
+  a.href="instrument.html?id="+encodeURIComponent(it.id);a.textContent=it.name;
+  const s=document.createElement("span");s.className="small";s.textContent=" - "+it.region;
+  li.append(a,s);ul.append(li);
+});
+</script>
+</body>
+</html>

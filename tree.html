@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Construction Tree - Magpie's Instrument Archive</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Lato:wght@400;700&display=swap">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+<h1>Magpie's Instrument Archive</h1>
+<div class="tagline">Instruments I own and where they come from</div>
+<nav><a href="index.html">Home</a> | <a href="index.html#map-section">World Map</a> | <a href="catalogue.html">Catalogue</a> | <a href="tree.html">Construction Tree</a> | <a href="index.html#contact">Contact</a></nav>
+<hr>
+<h2>Construction Tree</h2>
+<div id="tree"></div>
+<h3 id="unclassified-title">Not yet classified</h3>
+<ul id="unclassified"></ul>
+<hr>
+<footer class="small"><b>Copyright</b><br>All photographs on this website were taken by me. They are licensed for free use with credit, and may not be used for profit.</footer>
+<script src="instruments.js"></script>
+<script src="hs-tree.js"></script>
+<script>
+// find the deepest tree node whose code the instrument's hs code starts with
+const flat=[];
+(function walk(nodes){nodes.forEach(n=>{flat.push(n[0]);walk(n[2])})})(hsTree);
+const placed={},unclassified=[];
+instruments.forEach(it=>{
+  const code=(it.hs||"").trim().split("-")[0];
+  let best=null;
+  flat.forEach(c=>{if(code&&code.startsWith(c)&&(!best||c.length>best.length))best=c});
+  if(best){(placed[best]=placed[best]||[]).push(it)}else{unclassified.push(it)}
+});
+function instLink(it){
+  const li=document.createElement("li");li.className="inst";li.id=it.id;
+  const a=document.createElement("a");a.href="instrument.html?id="+encodeURIComponent(it.id);a.textContent=it.name;
+  li.append(a,document.createTextNode(" "));
+  const s=document.createElement("span");s.className="small";s.textContent="("+it.hs+")";li.append(s);
+  return li;
+}
+function build(nodes){
+  const ul=document.createElement("ul");
+  nodes.forEach(([code,name,kids])=>{
+    const li=document.createElement("li");
+    const b=document.createElement("b");b.textContent=code;
+    li.append(b,document.createTextNode(" "+name));
+    const inner=build(kids);
+    (placed[code]||[]).forEach(it=>inner.append(instLink(it)));
+    if(inner.children.length)li.append(inner);
+    ul.append(li);
+  });
+  return ul;
+}
+document.getElementById("tree").append(build(hsTree));
+const un=document.getElementById("unclassified");
+unclassified.forEach(it=>{
+  const li=document.createElement("li");const a=document.createElement("a");
+  a.href="instrument.html?id="+encodeURIComponent(it.id);a.textContent=it.name;li.append(a);un.append(li);
+});
+if(!unclassified.length){document.getElementById("unclassified-title").hidden=true}
+</script>
+</body>
+</html>

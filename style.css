@@ -1,0 +1,39 @@
+body{font-family:Lato,sans-serif;font-size:16px;font-weight:400;max-width:960px;margin:0 auto;padding:12px 16px;background:#fff;color:#2b2b2b;line-height:1.5}
+a:hover{color:red}
+h1{margin-bottom:2px}
+.tagline{font-weight:bold}
+.small{font-size:smaller}
+nav{margin:10px 0}
+/* map */
+#world-map{display:block;width:100%;height:auto;border:1px solid #666;user-select:none;-webkit-user-select:none}
+#world-map .sea{fill:#cfe0f0}
+#world-map .country{fill:#e4e4e4;stroke:#aaa;stroke-width:.6;outline:none}
+#world-map .country.active{fill:#d33;stroke:#800000;stroke-width:1.2;cursor:pointer}
+#world-map .country.active:hover,#world-map .dot:hover{fill:#900}
+#world-map .dot{display:none;fill:#d33;stroke:#800000;stroke-width:2;cursor:pointer}
+#world-map .dot.on{display:inline}
+#world-map *{outline:none;-webkit-tap-highlight-color:transparent}
+#world-map a:focus,#world-map path:focus,#world-map circle:focus{outline:none}
+/* lists */
+#country-list{columns:3;list-style:none;padding:0}
+.catalogue-list{columns:2}
+/* country page rows */
+.row{display:flex;gap:16px;align-items:flex-start;margin:0 0 28px 0;min-height:150px}
+.thumb{display:block;flex:0 0 200px;width:200px;height:150px;border:1px solid #000;background:#f3f3f3;overflow:hidden}
+.thumb img{width:100%;height:100%;object-fit:cover;display:block}
+.thumb.empty{border-style:dashed}
+.row h3{margin:0 0 6px 0}
+.row p{margin:0}
+/* instrument page */
+.photo{width:100%;max-width:520px;height:390px;border:1px solid #000;background:#f3f3f3;margin-bottom:12px;overflow:hidden}
+.photo.empty{border-style:dashed}
+.photo img{width:100%;height:100%;object-fit:contain;display:block}
+.box{border:1px solid #999;min-height:60px;padding:6px;margin:0 0 12px 0;white-space:pre-wrap}
+footer{margin-top:30px}
+@media(max-width:640px){#country-list,.catalogue-list{columns:1}.row{flex-direction:column}.thumb{width:100%;flex-basis:auto}}
+/* construction tree */
+#tree ul{list-style:none;margin:4px 0;padding-left:22px;border-left:1px solid #bbb}
+#tree>ul{border-left:none;padding-left:0}
+#tree li{margin:3px 0}
+#tree li.inst{list-style:disc;margin-left:18px}
+#unclassified{columns:2}
